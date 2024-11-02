@@ -1,0 +1,25 @@
+<div class="authentication-background">
+    <form class="authentication-form" [formGroup]="authenticationForm" (submit)="onSubmit()">
+        <div class="authentication-form-header">
+            <p>Welcome to LatinJobs</p>
+            <p>Please, login</p>
+        </div>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+
+        <button mat-raised-button type="submit">Log in</button>
+
+        <div class="authentication-invitation-signup">
+            <p>Don't you have an account?</p>
+            <p class="authentication-signup">Sign up</p>
+        </div>
+    </form>
+</div>
