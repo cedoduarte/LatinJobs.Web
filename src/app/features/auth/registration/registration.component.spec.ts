@@ -24,8 +24,7 @@ describe('RegistrationComponent', () => {
         provideHttpClient()
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegistrationComponent);
     component = fixture.componentInstance;

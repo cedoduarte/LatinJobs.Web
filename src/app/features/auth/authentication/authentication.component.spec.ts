@@ -24,8 +24,7 @@ describe('AuthenticationComponent', () => {
         provideHttpClient()
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AuthenticationComponent);
     component = fixture.componentInstance;

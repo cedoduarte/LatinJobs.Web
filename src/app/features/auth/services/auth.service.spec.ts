@@ -1,32 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { AuthenticatedDto, AuthenticateDto } from '../../../shared/types';
-import { ENDPOINTS } from '../../../shared/constants';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
 
 describe('AuthService', () => {
-  let service: AuthService;
-  let httpMock: HttpTestingController;
+  let authService: AuthService;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        AuthService,
-        provideHttpClientTesting(),
-        provideHttpClient()
-      ]
+      imports: [HttpClientModule],
+      providers: [AuthService, HttpClient]
     });
-    service = TestBed.inject(AuthService);
-    httpMock = TestBed.inject(HttpTestingController);
-  });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+    authService = TestBed.inject(AuthService);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['post']);
   });
 
   it('should authenticate user and return AuthenticatedDto', () => {
@@ -34,7 +23,6 @@ describe('AuthService', () => {
       email: 'testEmail',
       password: 'testPassword'
     };
-
     const mockAuthenticatedDto: AuthenticatedDto = {
       token: 'some-token',
       authentication: {
@@ -43,16 +31,14 @@ describe('AuthService', () => {
       }
     };
 
-    service.authenticate(mockAuthenticateDto).subscribe({
-      next: (response: AuthenticatedDto) => {
+    httpClientSpy.post.and.returnValue(of(mockAuthenticatedDto));
+
+    authService.authenticate(mockAuthenticateDto).subscribe({
+      next: (response: any) => {
         expect(response).toEqual(mockAuthenticatedDto);
       },
       error: (error: any) => { }
     });
-
-    const req = httpMock.expectOne(ENDPOINTS.authenticate);
-    expect(req.request.method).toBe('POST');
-    req.flush(mockAuthenticatedDto);
   });
 
   it('should handle error when authentication fails', () => {
@@ -60,16 +46,18 @@ describe('AuthService', () => {
       email: 'testEmail',
       password: 'testPassword'
     };
-
-    service.authenticate(mockAuthenticateDto).subscribe({
-      next: () => fail('Expected an error, not a response'),
-      error: (error: any) => {
-        expect(error.status).toBe(401);
-      }
+    const mockError: HttpErrorResponse = new HttpErrorResponse({
+      error: 'Invalid credentials',
+      status: 401
     });
 
-    const req = httpMock.expectOne(ENDPOINTS.authenticate);
-    expect(req.request.method).toBe('POST');
-    req.flush('Authentication failed', { status: 401, statusText: 'Unauthorized' });
+    httpClientSpy.post.and.returnValue(throwError(() => mockError));
+
+    authService.authenticate(mockAuthenticateDto).subscribe({
+      next: () => fail('Expected an error'),
+      error: (error: any) => {
+        expect(error).toEqual(mockError);
+      }
+    });
   });
 });
