@@ -13,9 +13,9 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
+    BrowserModule,    
     BrowserAnimationsModule,
+    AppRoutingModule,
     AuthModule
   ],
   providers: [],
