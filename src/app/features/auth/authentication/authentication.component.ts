@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
@@ -18,9 +18,10 @@ export class AuthenticationComponent implements OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
+    private readonly formBuilder: FormBuilder
   ) {
-    this.authenticationForm = new FormGroup({
+    this.authenticationForm = this.formBuilder.group({
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required, Validators.minLength(8)])
     });

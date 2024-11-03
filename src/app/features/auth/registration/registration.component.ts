@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -18,9 +18,10 @@ export class RegistrationComponent implements OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
+    private readonly formBuilder: FormBuilder
   ) {
-    this.registrationForm = new FormGroup({
+    this.registrationForm = this.formBuilder.group({
       firstName: new FormControl("", [Validators.required]),
       lastName: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email]),
