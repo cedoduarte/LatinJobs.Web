@@ -34,28 +34,31 @@ export class RegistrationComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  onSubmit() {
+  private validateForm(): boolean {
     if (!this.registrationForm.get('firstName')?.valid) {
       this.toastr.error('The first name is required', 'Error');
-      return;
+      return false;
     }
     if (!this.registrationForm.get('lastName')?.valid) {
       this.toastr.error('The last name is required', 'Error');
-      return;
+      return false;
     }
     if (!this.registrationForm.get('email')?.valid) {
       this.toastr.error('The email is not valid', 'Error');
-      return;
+      return false;
     }
     if (!this.registrationForm.get('password')?.valid) {
       this.toastr.error('The password is not valid', 'Error');
-      return;
+      return false;
     }
     if (!this.registrationForm.get('confirmPassword')?.valid) {
       this.toastr.error('The confirmation password is not valid', 'Error');
-      return;
+      return false;
     }
+    return true;
+  }
 
+  private getCreateUserDto(): CreateUserDto {
     const createUserDto: CreateUserDto = {
       email: this.registrationForm.get('email')?.value,
       password: this.registrationForm.get('password')?.value,
@@ -64,12 +67,10 @@ export class RegistrationComponent implements OnDestroy {
       lastName: this.registrationForm.get('lastName')?.value,
       roleId: -1
     };
+    return createUserDto;
+  }
 
-    if (createUserDto.password !== createUserDto.passwordConfirmation) {
-      this.toastr.error('Please, confirm your password', 'Error');
-      return;
-    }
-
+  private registerUser(createUserDto: CreateUserDto) {
     this.authService.registerUser(createUserDto)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -81,6 +82,18 @@ export class RegistrationComponent implements OnDestroy {
         this.toastr.error(error, 'Error');
       }
     });
+  }
+
+  onSubmit() {
+    if (!this.validateForm()) {
+      return;
+    }
+    const createUserDto: CreateUserDto = this.getCreateUserDto();
+    if (createUserDto.password !== createUserDto.passwordConfirmation) {
+      this.toastr.error('Please, confirm your password', 'Error');
+      return;
+    }
+    this.registerUser(createUserDto);
   }
 
   onGoBackToLoginClick() {

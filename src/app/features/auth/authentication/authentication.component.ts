@@ -31,21 +31,27 @@ export class AuthenticationComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  onSubmit() {
+  private validateForm(): boolean {
     if (!this.authenticationForm.get('email')?.valid) {
       this.toastr.error('The email is not valid', 'Error');
-      return;
+      return false;
     }
     if (!this.authenticationForm.get('password')?.valid) {
       this.toastr.error('The password is not valid', 'Error');
-      return;
+      return false;
     }
+    return true;
+  }
 
+  private getAuthenticateDto(): AuthenticateDto {
     const authenticateDto: AuthenticateDto = {
       email: this.authenticationForm.get('email')?.value,
       password: this.authenticationForm.get('password')?.value
     };
-    
+    return authenticateDto;
+  }
+
+  private authenticate(authenticateDto: AuthenticateDto) {
     this.authService.authenticate(authenticateDto)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
@@ -57,6 +63,13 @@ export class AuthenticationComponent implements OnDestroy {
         this.toastr.error(error, 'Error');
       }
     });
+  }
+
+  onSubmit() {
+    if (!this.validateForm()) {
+      return;
+    }
+    this.authenticate(this.getAuthenticateDto());
   }
 
   onSignupClick() {
