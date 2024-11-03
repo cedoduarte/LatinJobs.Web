@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthenticatedDto, AuthenticateDto } from '../../../shared/types';
+import { AuthenticatedDto, AuthenticateDto, CreateUserDto, UserViewModel } from '../../../shared/types';
 import { Observable, share } from 'rxjs';
 import { ENDPOINTS, HEADERS } from '../../../shared/constants';
 
@@ -16,5 +16,13 @@ export class AuthService {
       authenticateDto, 
       { headers: HEADERS }
     ).pipe(share());
+  }
+
+  registerUser(createUserDto: CreateUserDto): Observable<UserViewModel> {
+    return this.http.post<UserViewModel>(
+      ENDPOINTS.createUser,
+      createUserDto,
+      { headers: HEADERS }
+    ).pipe(share());    
   }
 }

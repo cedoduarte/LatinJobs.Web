@@ -8,5 +8,6 @@ export const HEADERS = {
 export const BASE_API_URL = environment.apiUrl;
 
 export const ENDPOINTS = {
-    authenticate: `${BASE_API_URL}/User/authenticate`
+    authenticate: `${BASE_API_URL}/User/authenticate`,
+    createUser: `${BASE_API_URL}/User/create`
 };
