@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { AuthenticatedDto, AuthenticateDto } from '../../../shared/types';
 import { ENDPOINTS } from '../../../shared/constants';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -12,7 +13,8 @@ describe('AuthService', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        provideHttpClient()
       ]
     });
     service = TestBed.inject(AuthService);
@@ -42,7 +44,7 @@ describe('AuthService', () => {
     };
 
     service.authenticate(mockAuthenticateDto).subscribe({
-      next: (response: any) => {
+      next: (response: AuthenticatedDto) => {
         expect(response).toEqual(mockAuthenticatedDto);
       },
       error: (error: any) => { }

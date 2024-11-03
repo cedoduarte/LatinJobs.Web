@@ -3,6 +3,9 @@ import { RegistrationComponent } from './registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideRouter, Router } from '@angular/router';
 import { routes } from '../../../app-routing.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -13,11 +16,14 @@ describe('RegistrationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegistrationComponent],
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastrModule.forRoot()
       ],
       providers: [
-        provideRouter(routes)
-      ]
+        provideRouter(routes),
+        provideHttpClient()
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
 

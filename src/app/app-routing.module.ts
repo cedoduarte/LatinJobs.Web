@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'auth', 
     loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule) 
