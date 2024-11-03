@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthenticatedDto, AuthenticateDto } from '../../../shared/types';
 import { Observable, share } from 'rxjs';
-import { ENDPOINTS, HEADERS } from 'src/app/shared/constants';
-import { AuthenticatedDto, AuthenticateDto } from 'src/app/shared/types';
+import { ENDPOINTS, HEADERS } from '../../../shared/constants';
 
 @Injectable({
   providedIn: 'root'

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegistrationComponent } from './registration.component';
-import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter, Router } from '@angular/router';
+import { routes } from '../../../app-routing.module';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -12,12 +11,13 @@ describe('RegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistrationComponent ],
+      declarations: [RegistrationComponent],
       imports: [
-        ReactiveFormsModule,
-        RouterTestingModule
+        ReactiveFormsModule
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [
+        provideRouter(routes)
+      ]
     })
     .compileComponents();
 
@@ -26,11 +26,11 @@ describe('RegistrationComponent', () => {
     router = TestBed.inject(Router);
     fixture.detectChanges();
   });
-  
-  it('should create the component', () => {
+
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+  
   it('should initialize the form with email, password and confirmPassword controls', () => {
     expect(component.registrationForm.contains('email')).toBeTruthy();
     expect(component.registrationForm.contains('password')).toBeTruthy();

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.scss']
+  styleUrl: './authentication.component.scss'
 })
 export class AuthenticationComponent {
   authenticationForm: FormGroup;
@@ -28,10 +28,11 @@ export class AuthenticationComponent {
       email: this.authenticationForm.get('email')?.value,
       password: this.authenticationForm.get('password')?.value
     }).subscribe({
-      next: response => {
+      next: (response: any) => {
         console.log(response);
       }, 
-      error: error => {
+      error: (error: any) => {
+        console.log(error);
         this.toastr.error(error, 'Error');
       }
     });

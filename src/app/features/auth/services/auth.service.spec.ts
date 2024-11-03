@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
-import { AuthenticateDto, AuthenticatedDto } from 'src/app/shared/types';
-import { ENDPOINTS } from 'src/app/shared/constants';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { AuthenticatedDto, AuthenticateDto } from '../../../shared/types';
+import { ENDPOINTS } from '../../../shared/constants';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -10,10 +10,11 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthService]
+      providers: [
+        AuthService,
+        provideHttpClientTesting()
+      ]
     });
-
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
   });
@@ -40,8 +41,11 @@ describe('AuthService', () => {
       }
     };
 
-    service.authenticate(mockAuthenticateDto).subscribe(response => {
-      expect(response).toEqual(mockAuthenticatedDto);
+    service.authenticate(mockAuthenticateDto).subscribe({
+      next: (response: any) => {
+        expect(response).toEqual(mockAuthenticatedDto);
+      },
+      error: (error: any) => { }
     });
 
     const req = httpMock.expectOne(ENDPOINTS.authenticate);
@@ -55,12 +59,12 @@ describe('AuthService', () => {
       password: 'testPassword'
     };
 
-    service.authenticate(mockAuthenticateDto).subscribe(
-      () => fail('Expected an error, not a response'),
-      error => {
+    service.authenticate(mockAuthenticateDto).subscribe({
+      next: () => fail('Expected an error, not a response'),
+      error: (error: any) => {
         expect(error.status).toBe(401);
       }
-    );
+    });
 
     const req = httpMock.expectOne(ENDPOINTS.authenticate);
     expect(req.request.method).toBe('POST');
