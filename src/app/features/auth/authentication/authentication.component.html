@@ -7,19 +7,19 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" />
+            <input matInput formControlName="email" placeholder="Email" />
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" />
+            <input matInput type="password" formControlName="password" placeholder="Password" />
         </mat-form-field>
 
         <button mat-raised-button type="submit">Log in</button>
 
         <div class="authentication-invitation-signup">
             <p>Don't you have an account?</p>
-            <p class="authentication-signup">Sign up</p>
+            <p class="authentication-signup" (click)="onSignupClick()">Sign up</p>
         </div>
     </form>
 </div>

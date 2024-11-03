@@ -1,0 +1,53 @@
+$background-image: url('/assets/background.jpg');
+
+.registration-background {
+    width: 100vw;
+    height: 100vh;
+    background-image: $background-image;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .registration-form {
+        // center the form in the page
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        // center de content of the form as a column
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .registration-form-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        mat-form-field {
+            // for mobile devices
+            @media (max-width: 720px) {
+                width: 20em;
+            }
+
+            // for computers
+            @media (min-width: 1024px) {
+                width: 25em;
+            }
+        }
+
+        .registration-goback-to-login {
+            color: #0000ee;
+            margin-top: 20px;
+
+            &:hover {
+                color: red;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+}

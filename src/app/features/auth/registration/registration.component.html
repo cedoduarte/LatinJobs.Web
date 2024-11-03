@@ -1,18 +1,26 @@
-<form [formGroup]="registrationForm" (submit)="onSubmit()">
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
-    </mat-form-field>
+<div class="registration-background">
+    <form class="registration-form" [formGroup]="registrationForm" (submit)="onSubmit()">
+        <div class="registration-form-header">
+            <p>Register your account</p>
+        </div>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" />
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Confirm Password</mat-label>
-        <input matInput type="password" formControlName="confirmPassword" />
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+        </mat-form-field>
 
-    <button mat-raised-button type="submit">Sign up</button>
-</form>
+        <mat-form-field appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" />
+        </mat-form-field>
+
+        <button mat-raised-button type="submit">Sign up</button>
+
+        <span class="registration-goback-to-login" (click)="onGoBackToLoginClick()">Go back to login</span>
+    </form>
+</div>

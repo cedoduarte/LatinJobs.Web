@@ -28,8 +28,6 @@ $background-image: url('/assets/background.jpg');
         }
 
         mat-form-field {
-            margin-bottom: 10px;
-
             // for mobile devices
             @media (max-width: 720px) {
                 width: 20em;
