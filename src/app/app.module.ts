@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './features/auth/auth.module';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     BrowserModule,    
     BrowserAnimationsModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     AuthModule
   ],
   providers: [],

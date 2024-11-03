@@ -5,6 +5,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
 import { materialDesignModules } from 'src/app/shared/material-design/material-design-modules';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { materialDesignModules } from 'src/app/shared/material-design/material-d
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
-    ...materialDesignModules
+    ...materialDesignModules,
+    HttpClientModule
   ]
 })
 export class AuthModule { }
