@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnDestroy {
   registrationForm: FormGroup;
   destroy$ = new Subject<void>();
 
-  constructor(
+  public constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly toastr: ToastrService,
@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -85,7 +85,7 @@ export class RegistrationComponent implements OnDestroy {
     });
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (!this.validateForm()) {
       return;
     }
@@ -97,7 +97,7 @@ export class RegistrationComponent implements OnDestroy {
     this.registerUser(createUserDto);
   }
 
-  onGoBackToLoginClick() {
+  public onGoBackToLoginClick() {
     this.router.navigate(["auth/signin"]);
   }
 }

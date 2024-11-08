@@ -15,7 +15,7 @@ export class AuthenticationComponent implements OnDestroy {
   authenticationForm: FormGroup;
   destroy$ = new Subject<void>();
 
-  constructor(
+  public constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly toastr: ToastrService,
@@ -27,7 +27,7 @@ export class AuthenticationComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -66,14 +66,14 @@ export class AuthenticationComponent implements OnDestroy {
     });
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (!this.validateForm()) {
       return;
     }
     this.authenticate(this.getAuthenticateDto());
   }
 
-  onSignupClick() {
+  public onSignupClick() {
     this.router.navigate(["auth/signup"]);
   }
 }

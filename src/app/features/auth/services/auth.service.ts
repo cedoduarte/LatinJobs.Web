@@ -8,9 +8,9 @@ import { ENDPOINTS, HEADERS } from '../../../shared/constants';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private readonly http: HttpClient) { }
+  public constructor(private readonly http: HttpClient) { }
 
-  authenticate(authenticateDto: AuthenticateDto): Observable<AuthenticatedDto> {
+  public authenticate(authenticateDto: AuthenticateDto): Observable<AuthenticatedDto> {
     return this.http.post<AuthenticatedDto>(
       ENDPOINTS.authenticate, 
       authenticateDto, 
@@ -18,7 +18,7 @@ export class AuthService {
     ).pipe(share());
   }
 
-  registerUser(createUserDto: CreateUserDto): Observable<UserViewModel> {
+  public registerUser(createUserDto: CreateUserDto): Observable<UserViewModel> {
     return this.http.post<UserViewModel>(
       ENDPOINTS.createUser,
       createUserDto,
