@@ -2,9 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../services/auth.service';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthenticateDto } from '../../../shared/types';
+import { UserAuthenticationService } from '../../../services/user-authentication/user-authentication.service';
+import { CreateUserAuthenticationDto, UserAuthenticationViewModel } from '../../../shared/types';
 
 @Component({
   selector: 'app-authentication',
@@ -17,7 +17,7 @@ export class AuthenticationComponent implements OnDestroy {
 
   public constructor(
     private readonly router: Router,
-    private readonly authService: AuthService,
+    private readonly userAuthenticationService: UserAuthenticationService,
     private readonly toastr: ToastrService,
     private readonly formBuilder: FormBuilder
   ) {
@@ -44,33 +44,33 @@ export class AuthenticationComponent implements OnDestroy {
     return true;
   }
 
-  private getAuthenticateDto(): AuthenticateDto {
-    const authenticateDto: AuthenticateDto = {
+  private getCreateUserAuthenticationDto(): CreateUserAuthenticationDto {
+    const authenticateDto: CreateUserAuthenticationDto = {
       email: this.authenticationForm.get('email')?.value,
       password: this.authenticationForm.get('password')?.value
     };
     return authenticateDto;
   }
 
-  private authenticate(authenticateDto: AuthenticateDto) {
-    this.authService.authenticate(authenticateDto)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response: any) => {
-        console.log(response);
-      }, 
-      error: (error: any) => {
-        console.log(error);
-        this.toastr.error(error, 'Error');
-      }
-    });
+  private createUserAuthentication(createUserAuthenticationDto: CreateUserAuthenticationDto) {
+    this.userAuthenticationService.create(createUserAuthenticationDto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: UserAuthenticationViewModel) => {
+          localStorage.setItem('token', response.token);
+          this.router.navigate(["/dashboard"]);
+        },
+        error: (error: any) => {
+          this.toastr.error(error, 'Error');
+        }
+      });
   }
 
   public onSubmit() {
     if (!this.validateForm()) {
       return;
     }
-    this.authenticate(this.getAuthenticateDto());
+    this.createUserAuthentication(this.getCreateUserAuthenticationDto());
   }
 
   public onSignupClick() {

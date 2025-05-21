@@ -2,9 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { CreateUserDto } from '../../../shared/types';
+import { CreateUserDto, UserViewModel } from '../../../shared/types';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -17,7 +17,7 @@ export class RegistrationComponent implements OnDestroy {
 
   public constructor(
     private readonly router: Router,
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly toastr: ToastrService,
     private readonly formBuilder: FormBuilder
   ) {
@@ -56,30 +56,33 @@ export class RegistrationComponent implements OnDestroy {
       this.toastr.error('The confirmation password is not valid', 'Error');
       return false;
     }
+    if (this.registrationForm.get('password')?.value !== this.registrationForm.get('confirmPassword')?.value) {
+      this.toastr.error('The passwords do not match', 'Error');
+      return false;
+    }
     return true;
   }
 
   private getCreateUserDto(): CreateUserDto {
     const createUserDto: CreateUserDto = {
-      email: this.registrationForm.get('email')?.value,
       password: this.registrationForm.get('password')?.value,
       passwordConfirmation: this.registrationForm.get('confirmPassword')?.value,
       firstName: this.registrationForm.get('firstName')?.value,
       lastName: this.registrationForm.get('lastName')?.value,
-      roleId: -1
+      email: this.registrationForm.get('email')?.value,
+      roleId: 1 // todo... 1 significa admin, no debe crearse un admin por defecto
     };
     return createUserDto;
   }
 
-  private registerUser(createUserDto: CreateUserDto) {
-    this.authService.registerUser(createUserDto)
+  private createUser(createUserDto: CreateUserDto) {
+    this.userService.create(createUserDto)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
-      next: (response: any) => {
-        console.log(response);
+      next: (response: UserViewModel) => {
+        this.router.navigate(["auth/signin"]);
       },
       error: (error: any) => {
-        console.log(error);
         this.toastr.error(error, 'Error');
       }
     });
@@ -89,12 +92,7 @@ export class RegistrationComponent implements OnDestroy {
     if (!this.validateForm()) {
       return;
     }
-    const createUserDto: CreateUserDto = this.getCreateUserDto();
-    if (createUserDto.password !== createUserDto.passwordConfirmation) {
-      this.toastr.error('Please, confirm your password', 'Error');
-      return;
-    }
-    this.registerUser(createUserDto);
+    this.createUser(this.getCreateUserDto());
   }
 
   public onGoBackToLoginClick() {
