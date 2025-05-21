@@ -1,1 +1,23 @@
-<p>dashboard works!</p>
+<div class="dashboard-layout">
+  <nav class="sidebar" [class.open]="sidebarOpen" [class.mobile]="isMobile">
+    <div class="logo">My Dashboard</div>
+    <ul class="nav-links">
+      <li><a routerLink="/dashboard/search-jobs" (click)="closeSidebar()">Search Jobs</a></li>
+      <li><a routerLink="/dashboard/profile" (click)="closeSidebar()">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Backdrop on mobile -->
+  <div class="backdrop" *ngIf="isMobile && sidebarOpen" (click)="closeSidebar()"></div>
+
+  <div class="main-content">
+    <header class="navbar">
+      <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
+      <span class="title">Dashboard</span>
+    </header>
+
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>

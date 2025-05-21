@@ -110,3 +110,17 @@ export interface JobViewModel {
 export interface UpdateJobDto extends CreateJobDto {
     id: number;
 }
+
+export interface CreateUserRoleDto {
+    userId: number;
+    roleId: number;
+}
+
+export interface UserRoleViewModel {
+    user: UserViewModel;
+    role: RoleViewModel;
+}
+
+export interface UpdateUserRoleDto extends CreateUserRoleDto {
+    id: number;
+}
