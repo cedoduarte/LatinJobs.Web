@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CreateUserDto, UserViewModel } from '../../../shared/types';
 import { UserService } from '../../../services/user/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -77,15 +78,15 @@ export class RegistrationComponent implements OnDestroy {
 
   private createUser(createUserDto: CreateUserDto) {
     this.userService.create(createUserDto)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response: UserViewModel) => {
-        this.router.navigate(["auth/signin"]);
-      },
-      error: (error: any) => {
-        this.toastr.error(error, 'Error');
-      }
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: UserViewModel) => {
+          this.router.navigate(["auth/signin"]);
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+          this.toastr.error(errorResponse.error, 'Error');
+        }
+      });
   }
 
   public onSubmit() {

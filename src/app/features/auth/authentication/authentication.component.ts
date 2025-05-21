@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { UserAuthenticationService } from '../../../services/user-authentication/user-authentication.service';
 import { CreateUserAuthenticationDto, UserAuthenticationViewModel } from '../../../shared/types';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-authentication',
@@ -60,8 +61,8 @@ export class AuthenticationComponent implements OnDestroy {
           localStorage.setItem('token', response.token);
           this.router.navigate(["/dashboard"]);
         },
-        error: (error: any) => {
-          this.toastr.error(error, 'Error');
+        error: (errorResponse: HttpErrorResponse) => {
+          this.toastr.error(errorResponse.error, 'Error');
         }
       });
   }
