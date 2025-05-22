@@ -1,4 +1,4 @@
-.container {
+.backoffice-container {
   max-width: 600px;
   margin: 2rem auto;
   background-color: #fff;
@@ -7,6 +7,17 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
   color: #333;
+
+  a {
+    text-decoration: none;
+    color: #020b10;
+    font-weight: bold;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #2980b9;
+    }
+  }
 
   h1 {
     font-size: 1.8rem;

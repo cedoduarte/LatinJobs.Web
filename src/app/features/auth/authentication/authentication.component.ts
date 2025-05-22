@@ -58,7 +58,7 @@ export class AuthenticationComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: UserAuthenticationViewModel) => {
-          localStorage.setItem('token', response.token);
+          sessionStorage.setItem('token', response.token);
           this.router.navigate(["/dashboard"]);
         },
         error: (errorResponse: HttpErrorResponse) => {

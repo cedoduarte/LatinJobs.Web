@@ -1,22 +1,32 @@
 <div class="dashboard-layout">
-  <nav class="sidebar" [class.open]="sidebarOpen" [class.mobile]="isMobile">
-    <div class="logo">My Dashboard</div>
-    <ul class="nav-links">
-      <li><a routerLink="/dashboard/search-jobs" (click)="closeSidebar()">Search Jobs</a></li>
-      <li><a routerLink="/dashboard/profile" (click)="closeSidebar()">Profile</a></li>
+  <nav class="dashboard-sidebar" [class.dashboard-open]="sidebarOpen" [class.dashboard-mobile]="isMobile">
+    <div class="dashboard-logo">
+      <i class="fas fa-chart-pie"></i>
+      <span>My Dashboard</span>
+    </div>
+    <ul class="dashboard-nav-links">
+      <li>
+        <a routerLink="/dashboard/search-jobs" (click)="closeSidebar()">
+          <i class="fas fa-briefcase"></i> Search Jobs
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/profile" (click)="closeSidebar()">
+          <i class="fas fa-user"></i> Profile
+        </a>
+      </li>
     </ul>
   </nav>
 
-  <!-- Backdrop on mobile -->
-  <div class="backdrop" *ngIf="isMobile && sidebarOpen" (click)="closeSidebar()"></div>
+  <div class="dashboard-backdrop" *ngIf="isMobile && sidebarOpen" (click)="closeSidebar()"></div>
 
-  <div class="main-content">
-    <header class="navbar">
-      <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
-      <span class="title">Dashboard</span>
+  <div class="dashboard-main-content">
+    <header class="dashboard-navbar">
+      <button class="dashboard-toggle-btn" (click)="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <span class="dashboard-title">Dashboard</span>
     </header>
 
-    <section class="content">
+    <section class="dashboard-content">
       <router-outlet></router-outlet>
     </section>
   </div>
